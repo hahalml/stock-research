@@ -24,7 +24,11 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
 
   }
   get("/stocks-infos-by-year") {
-	  "stocks-infos-by-year"
+	   Map("code" -> "0", "data" -> List(1,2,3))
   }
 
+  get("get-current-stock/:stCode"){
+    val stCode = params("stCode")
+    stockService.getCurrentStockInfo(stCode)
+  }
 }

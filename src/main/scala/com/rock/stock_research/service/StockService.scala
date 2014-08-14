@@ -33,6 +33,11 @@ class StockService extends IStockService {
     stocksInfoList
   }
 
+  override def getCurrentStockInfo(stCode:String):Map[String,String]={
+    Map.empty[String,String]
+  }
+  
+  
   private def createStockInfos(stocks: ArrayBuffer[Stock]) = {
 
     val stockNum = stocks.length
@@ -46,7 +51,9 @@ class StockService extends IStockService {
         delNumIncPercent = NumUtil.percent(stocks(i - 1).dealStockNum, stock.dealStockNum)
       }
       val date = stock.date
-      stockInfos += Map("date" -> stock.date, "price" -> stock.currPrice.toString, "priceInc" -> incPercent, "dealNum" -> stock.dealStockNum.toString, "dealNumInc" -> delNumIncPercent)
+      stockInfos += Map("date" -> stock.date, "price" -> stock.currPrice.toString, "priceInc" -> incPercent,
+          "dealNum" -> stock.dealStockNum.toString, "dealNumInc" -> delNumIncPercent, "minPrice"->stock.currPrice.toString, "maxPrice"->stock.currPrice.toString
+          ,"minDealNum"->stock.dealStockNum.toString, "maxDealNum"->stock.dealStockNum.toString)
     }
 
     stockInfos
