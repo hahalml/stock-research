@@ -4,6 +4,7 @@ require.config({
 		"jquery" : "js/lib/jquery.1.7.2.min",
         "text" : "js/lib/text",
         "jsrender" : "js/lib/jsrender",
+        "tmpl" : "js/lib/jquery-tmpl",
         "grid" : "grid/grid"
 	}
 });
