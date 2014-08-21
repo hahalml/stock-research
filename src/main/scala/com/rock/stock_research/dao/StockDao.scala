@@ -4,18 +4,13 @@ import com.rock.stock_research.entity.Stock
 import scala.collection.mutable.ArrayBuffer
 import com.rock.stock_research.entity.Stock
 import sorm._
-import com.rock.stock_research.entity.Stock
-import com.rock.stock_research.entity.Stock
-import com.rock.stock_research.entity.Stock
-import com.rock.stock_research.entity.Stock
-import com.rock.stock_research.entity.Stock
-import com.rock.stock_research.entity.Stock
 import org.apache.commons.dbutils.QueryRunner
 import com.rock.stock_research.dao.db.ConnectionManager
 import org.apache.commons.dbutils.handlers.MapListHandler
 import scala.collection.JavaConversions._
 //https://github.com/sorm/sorm/blob/master/src/main/scala/sorm/Querier.scala
 object StockDao{
+  private val fields = " name, open_price, curr_price, date, st_code, time, deal_stock_num, deal_price, prev_close_price "
   def getStock(stCode:String, startDate:String, endDate:String) = {
     
   }
@@ -31,10 +26,18 @@ object StockDao{
    
   }
   
-  def getStocks(query:QueryOption) = {
+  def getStocks(qo:QueryOption) = {
     val query = new QueryRunner()
     val conn = ConnectionManager.getConnection
-    val stocksMap = query.query(conn, "select * from stock where st_code = 'sz300200' limit 111", new MapListHandler)
+    var sql = qo match {
+	  case QueryOption(null, null, _) => "select "+fields+" from stock" 
+	  case QueryOption(start, null, _) => "select "+fields+" from stock where date >='"+start+"' " 
+	  case QueryOption(null, end, _) =>  "select "+fields+" from stock where date <='"+end+"'" 
+	  case QueryOption(start, end, _) =>  "select "+fields+" from stock where date>='"+start+"' and date <='"+end+"'" 
+	}
+  //  sql = "select name, open_price, curr_price, date, st_code, time, deal_stock_num, deal_price, prev_close_price  FROM stock WHERE DATE >='2014-07-11'"
+    println("sql:"+sql)
+    val stocksMap = query.query(conn, sql, new MapListHandler)
     ConnectionManager.closeConnection(conn)
      
     val iterator = stocksMap.iterator();

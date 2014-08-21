@@ -1,24 +1,49 @@
-define(['jquery','text!grid.html',"jsrender"], function($,gridHtml){
-    var PlainGrid = function(data, opt){
-    	$('body').append(gridHtml);
-//     	this.defaultOpt = {
-//     		container:$(body)
-//     	};
-//     	$.extends(this.defaultOpt, opt);
-//     	this.data = data;
-       // this.init();
+define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,gridHtml){
+    var PlainGrid = function(data, container){
+    	this.container = container;
+    	this.headData = data.head;
+    	this.bodyData = data.body;
+    	container.append(gridHtml);
+    	 
     };
 
     PlainGrid.prototype = {
         init : function(){
            this.el = $('#myTable');
-            
            this.render();
         },
+        createRowsData : function(){
+        	// [[1,2,3],[11,22,33]]
+        	var rows = [];
+        	var data = this.bodyData;
+        	for(var i=0; i<data.length; i++){
+        		var rowData = data[i];
+        		var cols = [];
+        		rows.push(cols);
+        		cols[0] = rowData.stCode;
+        		cols[1] = rowData.name;
+        		cols[2] = rowData.currPrice;
+        		
+        		cols[3] = rowData.incPercent;
+        		cols[4] = rowData.max;
+        		cols[5] = rowData.min;
+        		
+        		cols[6] = rowData.avg;
+        		cols[7] = rowData.totalDealNum;
+        		cols[8] = rowData.totalDealPrice;
+        		
+        		cols[9] = rowData.startDate;
+        		cols[10] = rowData.endDate;
+        		cols[11] = rowData.preIncPercent;
+        		
+        	}
+        	return rows;
+        },
         render : function(){
+        	var self = this;
         	var data = {
-        		cols : ['col1','col2','col3'],
-        		rows : [[1,2,3],[11,22,33]]
+        		cols : self.headData,
+        		rows : self.createRowsData()
         	};
         	var $head = this.el.find('thead');
         	var $body = this.el.find('tbody');

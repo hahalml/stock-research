@@ -20,6 +20,23 @@ require.config({
     }
 });
 require(['jquery' , "grid"], function($,Grid) {
-    var grid = new Grid();
-    grid.init();
+	function loadGridData(){
+		$.ajax({
+			"url":"/get-stock-statistics-info?days=10&stockNum=100",
+			"async":true,
+			"dataType":"json",
+			"error" : function(e){
+				alert(e);
+			},
+			"success" : function(data){
+				drawGrid(data);
+			}
+		});
+	}
+	function drawGrid(data){
+		 var grid = new Grid(data,$('.stock-grid'));
+	     grid.init();
+	}
+	loadGridData();
+   
 });

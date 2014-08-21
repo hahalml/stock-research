@@ -56,8 +56,8 @@ class StockService extends IStockService {
   }
 
    
-   def getStockStatistics(stockNum:Int):ArrayBuffer[Map[String,Any]] = {
-    val stocks = StockDao.getStocks(null)
+   def getStockStatistics(daysAgo:Int, stockNum:Int):ArrayBuffer[Map[String,Any]] = {
+    val stocks = StockDao.getStocks(QueryOption(DateUtil.getDaysAgo(daysAgo),null,Int.MaxValue)).filterNot((stock:Map[String,Any])=>stock("curr_price").toString.toDouble == 0.0)
     val stList = stocks.groupBy((stock:Map[String,Any])=>stock("st_code").toString)
     val statDatas = ArrayBuffer.empty[Map[String,Any]]
     for((stCode, stockDatas) <- stList){
@@ -93,14 +93,15 @@ class StockService extends IStockService {
         }
     	avg = totalPrice/stockNum
     	statDatas += Map("stCode"->getStockField(sortedStocks,0,"st_code"),"name"->getStockField(sortedStocks,0,"name"),"min"->min, 
-    	    "max"->max, "avg"->avg, "currPrice"->currPrice, "incPercent"->NumUtil.percent(stocks(0)("curr_price"), stocks(stockNum-1)("curr_price")),
+    	    "max"->max, "avg"->avg, "currPrice"->currPrice, "incPercent"->NumUtil.percent(sortedStocks(0)("curr_price"), sortedStocks(stockNum-1)("curr_price")),
     	    "totalDealNum"->totalDealNum, "totalDealPrice"->totalDealPrice, 
     	    "startDate"->sortedStocks(0)("date"), "endDate"->sortedStocks(stockNum-1)("date"),
     	    "preIncPercent"->NumUtil.percent(getStockField(sortedStocks, stockNum-1, "prev_close_price"), getStockField(sortedStocks, stockNum-1, "curr_price")))
     }
-   // statDatas.take(stockNum)
-    statDatas
-  }
+     
+    statDatas.sortWith((st1:Map[String,Any], st2:Map[String,Any])=>st1("incPercent").toString.replace("%", "").toDouble > st2("incPercent").toString.replace("%", "").toDouble).take(stockNum)
+    
+   } 
 
   
   
