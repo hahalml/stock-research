@@ -2,9 +2,8 @@ package com.rock.stock_research.service
 
 import com.rock.stock_research.entity.Stock
 import com.rock.stock_research.entity.Stock
+import scala.collection.mutable.ArrayBuffer
 
-object RealTimeStockService {
-	def getStockInfo(stCode:String):Stock={
-	  null
-	}
+trait RealTimeStockService {
+  def getStockInfo(stCodeList: Array[String]): ArrayBuffer[Stock]
 }

@@ -16,9 +16,9 @@ import java.lang.Double
 class StockService extends IStockService {
 
   override def getStocksInfo(startDate: String, endDate: String, period: Period) = {
-	  List(Map("min"->"", "max"->"", "endPrice"->"", "avg"->"", "totalDealNum"->"", "totalDealPrice"->"",
-	      "startDate"->"", "endDate"->"", "incPricePercent"->"", "incDealNumPercent"->""))
-	 null
+    List(Map("min" -> "", "max" -> "", "endPrice" -> "", "avg" -> "", "totalDealNum" -> "", "totalDealPrice" -> "",
+      "startDate" -> "", "endDate" -> "", "incPricePercent" -> "", "incDealNumPercent" -> ""))
+    null
   }
 
   override def getCurrentStockInfo(stCode: String): Map[String, String] = {
@@ -42,10 +42,10 @@ class StockService extends IStockService {
     val range = (0 to stockNum - 1)
     for (i <- range) {
       val stock = stocks(i)
-      val incPercent = NumUtil.percent(stock.prevClosePrice, stock.currPrice)
+      val incPercent = NumUtil.incPercent(stock.prevClosePrice, stock.currPrice)
       var delNumIncPercent = ""
       if (i != 0) {
-        delNumIncPercent = NumUtil.percent(stocks(i - 1).dealStockNum, stock.dealStockNum)
+        delNumIncPercent = NumUtil.incPercent(stocks(i - 1).dealStockNum, stock.dealStockNum)
       }
       val date = stock.date
       stockInfos += Map("sector" -> stock.stCode, "date" -> stock.date, "price" -> stock.currPrice.toString, "priceInc" -> incPercent,
@@ -55,64 +55,68 @@ class StockService extends IStockService {
     stockInfos
   }
 
-   
-   def getStockStatistics(daysAgo:Int, stockNum:Int):ArrayBuffer[Map[String,Any]] = {
-    val stocks = StockDao.getStocks(QueryOption(DateUtil.getDaysAgo(daysAgo),null,Int.MaxValue)).filterNot((stock:Map[String,Any])=>stock("curr_price").toString.toDouble == 0.0)
-    val stList = stocks.groupBy((stock:Map[String,Any])=>stock("st_code").toString)
-    val statDatas = ArrayBuffer.empty[Map[String,Any]]
-    for((stCode, stockDatas) <- stList){
-    	var sts = stockDatas.groupBy((stock:Map[String,Any])=>stock("date").toString).values.map((stocks:ArrayBuffer[Map[String,Any]])=>stocks(0))
-        val sortedStocks = sts.toList.sortBy((stock:Map[String,Any])=>stock("date").toString)
-        val stockNum = sortedStocks.length
+  def getStockStatistics(daysAgo: Int, stockNum: Int): ArrayBuffer[Map[String, Any]] = {
+    val stocks = StockDao.getStocks(QueryOption(DateUtil.getDaysAgo(daysAgo), null, Int.MaxValue)).filterNot((stock: Map[String, Any]) => stock("curr_price").toString.toDouble == 0.0)
+    val stList = stocks.groupBy((stock: Map[String, Any]) => stock("st_code").toString)
+    val statDatas = ArrayBuffer.empty[Map[String, Any]]
+    for ((stCode, stockDatas) <- stList) {
+      var sts = stockDatas.groupBy((stock: Map[String, Any]) => stock("date").toString).values.map((stocks: ArrayBuffer[Map[String, Any]]) => stocks(0))
+      val sortedStocks = sts.toList.sortBy((stock: Map[String, Any]) => stock("date").toString)
+      val stockNum = sortedStocks.length
 
-        val incPercent = NumUtil.percent(sortedStocks(0)("curr_price"), sortedStocks(stockNum-1)("curr_price"))
-        var min :Double =null
-        var max :Double =null
-        var avg = 0.0
-        var totalDealNum = 0
-        var totalDealPrice = 0.0
-        val currPrice = sortedStocks(stockNum-1)("curr_price")
-        var totalPrice = 0.0
-        for(stock <- sortedStocks){
-        	val currPrice = stock("curr_price").toString.toDouble
-        	totalDealNum = totalDealNum + stock("deal_stock_num").toString.toInt
-        	totalDealPrice = totalDealPrice + stock("deal_price").toString.toDouble
-        	totalPrice = totalPrice + currPrice
-        	if(min == null){
-        	  min = currPrice
-        	}
-        	if(max == null){
-        	  max = currPrice
-        	}
-        	if(currPrice!=0 && currPrice <= min){
-        	  min = currPrice
-        	}
-        	if(currPrice!=0 && currPrice >= max){
-        	  max = currPrice
-        	}
+      val incPercent = NumUtil.incPercent(sortedStocks(0)("curr_price"), sortedStocks(stockNum - 1)("curr_price"))
+      var min: Double = null
+      var max: Double = null
+      var avg = 0.0
+      var totalDealNum = 0
+      var totalDealPrice = 0.0
+      val currPrice = sortedStocks(stockNum - 1)("curr_price")
+      var totalPrice = 0.0
+
+      var totalInc = 0
+      var totalDec = 0
+      var totalNotChanged = 0
+      for (stock <- sortedStocks) {
+        val currPrice = stock("curr_price").toString.toDouble
+        val prevClose = stock("prev_closed").toString.toDouble
+
+        currPrice - prevClose match {
+          case value if (value == 0) => totalNotChanged = totalNotChanged + 1
+          case value if (value > 0) => totalInc = totalInc + 1
+          case value if (value < 0) => totalDec = totalDec + 1
         }
-    	avg = totalPrice/stockNum
-    	statDatas += Map("stCode"->getStockField(sortedStocks,0,"st_code"),"name"->getStockField(sortedStocks,0,"name"),"min"->min, 
-    	    "max"->max, "avg"->avg, "currPrice"->currPrice, "incPercent"->NumUtil.percent(sortedStocks(0)("curr_price"), sortedStocks(stockNum-1)("curr_price")),
-    	    "totalDealNum"->totalDealNum, "totalDealPrice"->totalDealPrice, 
-    	    "startDate"->sortedStocks(0)("date"), "endDate"->sortedStocks(stockNum-1)("date"),
-    	    "preIncPercent"->NumUtil.percent(getStockField(sortedStocks, stockNum-1, "prev_close_price"), getStockField(sortedStocks, stockNum-1, "curr_price")))
-    }
-     
-    statDatas.sortWith((st1:Map[String,Any], st2:Map[String,Any])=>st1("incPercent").toString.replace("%", "").toDouble > st2("incPercent").toString.replace("%", "").toDouble).take(stockNum)
-    
-   } 
 
-  
-  
-  private def getStockField(stocks:List[Map[String,Any]], index:Int, field:String) = {
+        totalDealNum = totalDealNum + stock("deal_stock_num").toString.toInt
+        totalDealPrice = totalDealPrice + stock("deal_price").toString.toDouble
+        totalPrice = totalPrice + currPrice
+        if (min == null) {
+          min = currPrice
+        }
+        if (max == null) {
+          max = currPrice
+        }
+        if (currPrice != 0 && currPrice <= min) {
+          min = currPrice
+        }
+        if (currPrice != 0 && currPrice >= max) {
+          max = currPrice
+        }
+      }
+      avg = totalPrice / stockNum
+      statDatas += Map("stCode" -> getStockField(sortedStocks, 0, "st_code"), "name" -> getStockField(sortedStocks, 0, "name"), "min" -> min,
+        "max" -> max, "avg" -> avg, "currPrice" -> currPrice, "incPercent" -> NumUtil.incPercent(sortedStocks(0)("curr_price"), sortedStocks(stockNum - 1)("curr_price")),
+        "totalDealNum" -> totalDealNum, "totalDealPrice" -> totalDealPrice,
+        "startDate" -> sortedStocks(0)("date"), "endDate" -> sortedStocks(stockNum - 1)("date"),
+        "preIncPercent" -> NumUtil.incPercent(getStockField(sortedStocks, stockNum - 1, "prev_close_price"), getStockField(sortedStocks, stockNum - 1, "curr_price")),
+        "totalInc" -> NumUtil.percent(totalInc / stockNum), "totalDec" -> NumUtil.percent(totalDec / stockNum), "totalNotChanged" -> NumUtil.percent(totalNotChanged / stockNum))
+    }
+
+    statDatas.sortWith((st1: Map[String, Any], st2: Map[String, Any]) => st1("incPercent").toString.replace("%", "").toDouble > st2("incPercent").toString.replace("%", "").toDouble).take(stockNum)
+
+  }
+
+  private def getStockField(stocks: List[Map[String, Any]], index: Int, field: String) = {
     stocks(index)(field)
   }
-  
-  
-  
-  
-  
-  
-  
+
 }
