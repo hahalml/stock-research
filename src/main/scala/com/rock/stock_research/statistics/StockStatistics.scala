@@ -20,6 +20,3 @@ case class StockStatistics() {
   }
 }
 
-object TestStat extends App {
-
-}

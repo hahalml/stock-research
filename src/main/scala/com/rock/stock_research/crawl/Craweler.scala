@@ -25,5 +25,24 @@ object Craweler extends App {
   println(stocks)
 
   println(stocks.length + "," + stocks.toSet.size)
+  
+  
+  
+  
+  
+  testDebug
+  
+  def testDebug{
+    var i = 0;
+    var j=1;
+    println(i+j)
+  }
+  
+  
+  
+  
+  
+  
+  
 
 }

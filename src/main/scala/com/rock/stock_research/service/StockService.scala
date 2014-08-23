@@ -13,6 +13,7 @@ import com.rock.stock_research.entity.Stock
 import java.util.Calendar
 import scala.collection.JavaConversions._
 import java.lang.Double
+import com.rock.stock_research.statistics.StockStatistics
 class StockService extends IStockService {
 
   override def getStocksInfo(startDate: String, endDate: String, period: Period) = {
@@ -117,6 +118,25 @@ class StockService extends IStockService {
 
   private def getStockField(stocks: List[Map[String, Any]], index: Int, field: String) = {
     stocks(index)(field)
+  }
+
+  private def doStatistics(stocks: Seq[Map[String, Any]]): StockStatistics = {
+    if (stocks == null || stocks.isEmpty)
+      return null
+    val st = new StockStatistics
+    var totalPrice = 0.0
+    for (stock <- stocks) {
+      st.totalDealNum = st.totalDealNum + stock("").toString.toInt
+      st.totalDealPrice = st.totalDealPrice + stock("").toString.toDouble
+      totalPrice = totalPrice + stock("").toString.toDouble
+    }
+    st.avg = totalPrice / stocks.length
+    val minStock = stocks.minBy((stock: Map[String, Any]) => stock("").toString.toDouble)
+    st.min = minStock("").toString.toDouble
+    val maxStock = stocks.minBy((stock: Map[String, Any]) => stock("").toString.toDouble)
+    st.max = maxStock("").toString.toDouble
+    st.curr = stocks.last("").toString.toDouble
+    st
   }
 
 }
