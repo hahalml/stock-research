@@ -139,4 +139,17 @@ class StockService extends IStockService {
     st
   }
 
+  private def doDailyStatistics(stocks: Seq[Map[String, Any]]) = {
+    var stData = Seq.empty[Map[String, Any]]
+    for (stock <- stocks) {
+      val priceIncPercent = NumUtil.incPercent(stock(""), stock(""))
+      val dealNumIncPercent = NumUtil.incPercent(stock(""), stock(""))
+      val dealPriceIncPercent = NumUtil.incPercent(stock(""), stock(""))
+      val price = stock("")
+      val dealNum = stock("")
+      stData = stData :+ Map("price" -> price, "" -> dealNum, "" -> priceIncPercent, "" -> dealNumIncPercent, "" -> dealPriceIncPercent)
+    }
+    stData
+  }
+
 }
