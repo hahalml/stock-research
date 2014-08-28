@@ -23,7 +23,7 @@ object DateUtil {
     calendar.setTime(date)
     calendar.get(Calendar.DAY_OF_WEEK)
   }
-  def getDaysAgo(days:Int) = {
+  def daysAgo(days:Int) = {
       val calendar = Calendar.getInstance()
 	  calendar.add(Calendar.DATE, days*(-1))
 	  sdf.format(calendar.getTime())
