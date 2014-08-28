@@ -6,7 +6,7 @@ import java.math.BigDecimal
 object NumUtil extends App {
 
   def incPercent(n1: Any, n2: Any): String = {
-    if (n1.toString.toDouble == 0) {
+    if (n1.toString.toDouble.equals(0)) {
       "-"
     } else {
       var delta = (n2.toString.toDouble - n1.toString.toDouble) / n1.toString.toDouble

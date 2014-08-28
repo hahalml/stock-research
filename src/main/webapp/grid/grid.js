@@ -35,7 +35,7 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
         		cols[9] = rowData.startDate;
         		cols[10] = rowData.endDate;
         		cols[11] = rowData.preIncPercent;
-        		
+        		cols.unshift(i+1);
         	}
         	return rows;
         },
@@ -49,6 +49,7 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
         	var $body = this.el.find('tbody');
 
         	var $headRow = $('<tr></tr>');
+        	data.cols.unshift("order");
         	for(var i=0; i<data.cols.length; i++){
         		var $col = $('<td></td>').text(data.cols[i]);
         		$headRow.append($col);

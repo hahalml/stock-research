@@ -66,6 +66,7 @@ class StockService extends IStockService {
       val stockNum = sortedStocks.length
 
       val incPercent = NumUtil.incPercent(sortedStocks(0)("curr_price"), sortedStocks(stockNum - 1)("curr_price"))
+
       var min: Double = null
       var max: Double = null
       var avg = 0.0
@@ -79,7 +80,7 @@ class StockService extends IStockService {
       var totalNotChanged = 0
       for (stock <- sortedStocks) {
         val currPrice = stock("curr_price").toString.toDouble
-        val prevClose = stock("prev_closed").toString.toDouble
+        val prevClose = stock("prev_close_price").toString.toDouble
 
         currPrice - prevClose match {
           case value if (value == 0) => totalNotChanged = totalNotChanged + 1
@@ -88,7 +89,7 @@ class StockService extends IStockService {
         }
 
         totalDealNum = totalDealNum + stock("deal_stock_num").toString.toInt
-        totalDealPrice = totalDealPrice + stock("deal_price").toString.toDouble
+        totalDealPrice = NumUtil.getScale(totalDealPrice + stock("deal_price").toString.toDouble, 2)
         totalPrice = totalPrice + currPrice
         if (min == null) {
           min = currPrice
@@ -103,7 +104,7 @@ class StockService extends IStockService {
           max = currPrice
         }
       }
-      avg = totalPrice / stockNum
+      avg = NumUtil.getScale(totalPrice / stockNum, 2)
       statDatas += Map("stCode" -> getStockField(sortedStocks, 0, "st_code"), "name" -> getStockField(sortedStocks, 0, "name"), "min" -> min,
         "max" -> max, "avg" -> avg, "currPrice" -> currPrice, "incPercent" -> NumUtil.incPercent(sortedStocks(0)("curr_price"), sortedStocks(stockNum - 1)("curr_price")),
         "totalDealNum" -> totalDealNum, "totalDealPrice" -> totalDealPrice,

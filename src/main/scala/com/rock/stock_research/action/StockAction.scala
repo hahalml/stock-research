@@ -48,9 +48,13 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
 //	  case null => 100
 //	  case d => d.toInt
 //	}
-    val body = stockService.getStockStatistics(11, 111)
-    val head = Array("股票代码", "股票名称", "当前价","累计涨幅","最高", "最低", "平均", "总成交量","成交金额","开始日期","结束日期","涨幅(昨日)")
-    JacksMapper.writeValueAsString(Map("head"->head, "body"->body))
+	  try {
+		    val body = stockService.getStockStatistics(11, 111)
+		    val head = Array("股票代码", "股票名称", "当前价","累计涨幅","最高", "最低", "平均", "总成交量","成交金额","开始日期","结束日期","涨幅(昨日)")
+		    JacksMapper.writeValueAsString(Map("head"->head, "body"->body))
+	  }catch {
+	  	case t:Throwable => t.printStackTrace(); t
+	  }
   }
   
   
