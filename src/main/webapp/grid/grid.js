@@ -12,6 +12,7 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
            this.el = $('#myTable');
            this.render();
         },
+
         createRowsData : function(){
         	// [[1,2,3],[11,22,33]]
         	var rows = [];
@@ -64,6 +65,34 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
         		}
         		$body.append($row);
         	}
+
+        },
+        render2 : function(){
+            var data = {
+                head : [],
+                body : [[{
+                    value:'',
+                    label:'',
+                    style:{}
+                },{}],[]]
+            };
+
+
+            var $body = this.el.find('tbody');
+            var bodyData = data.body;
+            for(var i=0;i<bodyData.length;i++){
+                var $row = $('<tr></tr>');
+                var rowData = bodyData[i];
+                for(var j=0;j<rowData.length;j++){
+                    var cellData = rowData[j];
+                    var $col = $('<td></td>').html(cellData.label);
+                    $col.css(style);
+                    $row.append($col);
+                }
+                $body.append($row);
+            }
+
+
 
         },
     	setOptItem : function(){
