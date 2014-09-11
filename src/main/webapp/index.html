@@ -6,8 +6,15 @@
 	padding-right: 10px;
 }
 .stock-grid{
-	height:700px;
-	overflow-y: scroll;
+	height:500px;
+	overflow: scroll;
+}
+ul.nav li{
+	cursor: pointer;
+}
+table ul, table li{
+	list-style: none;
+	padding: 0px;
 }
 </style>
 <meta charset="GB2312">
@@ -17,7 +24,17 @@
 </head>
 <body>
 	<div class='container'>
-		<div class='stock-grid'></div>
+		<ul class="nav">
+			<li class="days-ago-stat">days ago statistic</li>
+			<li class="day-by-day-stat">day statistic</li>
+		</ul>
+		<div class="content">
+			<div class="setting">
+				<div class="start-date"></div>
+				<div class="end-date"></div>
+			</div>
+			<div class='stock-grid'></div>
+		</div>
 	</div>
 </body>
 </html>

@@ -19,8 +19,13 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
 
   get("/stocks-infos-by-day") {
     try {
+      val p = params("id")
+      println("p="+p)
       val stocksInfos = stockService.getStocksInfosByDay(DateUtil.daysAgo(14), null)
-      JacksMapper.writeValueAsString(stocksInfos)
+      stocksInfos(0)("data")
+      val maxDataNumData = stocksInfos.maxBy((data:Map[String,Any])=>{data("data").asInstanceOf[Seq[Any]].size})
+      val maxDataNum = maxDataNumData("data").asInstanceOf[Seq[Any]].size
+      JacksMapper.writeValueAsString(Map("data"->stocksInfos, "maxDataNum"->maxDataNum))
     } catch {
       case t: Throwable => t.printStackTrace(); t
     }
@@ -55,8 +60,8 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
     //	  case d => d.toInt
     //	}
     try {
-      val body = stockService.getStockStatistics(11, 111)
-      val head = Array("股票代码", "股票名称", "当前价", "累计涨幅", "最高", "最低", "平均", "总成交量", "成交金额", "开始日期", "结束日期", "涨幅(昨日)")
+      val body = stockService.getStockStatistics(90, 511)
+      val head = Array("序号", "股票代码", "股票名称", "当前价", "累计涨幅", "最高", "最低", "平均", "总成交量", "成交金额", "开始日期", "结束日期", "涨幅(昨日)")
       JacksMapper.writeValueAsString(Map("head" -> head, "body" -> body))
     } catch {
       case t: Throwable => t.printStackTrace(); t

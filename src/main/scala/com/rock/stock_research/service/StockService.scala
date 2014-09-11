@@ -32,7 +32,7 @@ class StockService extends IStockService {
         val sortedStocks = notDuplicateStocks.sortBy((stock:Map[String,Any])=>stock("date").toString)
     	st = st :+ doDailyStatistics(sortedStocks)
     }
-    st
+    st.take(100)//TODO
   }
 
   override def getCurrentStockInfo(stCode: String): Map[String, String] = {
@@ -149,7 +149,7 @@ class StockService extends IStockService {
       val date = stock("date")
       stData = stData :+ Map("date" -> date, "price" -> price, "dealPrice"->dealPrice, "dealNum" -> dealNum, "priceIncPercent" -> priceIncPercent, "dealNumIncPercent" -> dealNumIncPercent, "dealPriceIncPercent" -> dealPriceIncPercent)
     }
-    Map("stCode"->stocks(0)("st_code"), "data"->stData)
+    Map("stCode"->stocks(0)("st_code"),"name"->stocks(0)("name"), "data"->stData)
   }
 
   

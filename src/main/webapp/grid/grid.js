@@ -3,6 +3,7 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
     	this.container = container;
     	this.headData = data.head;
     	this.bodyData = data.body;
+        this.data = data;
     	container.append(gridHtml);
     	 
     };
@@ -13,72 +14,24 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
            this.render();
         },
 
-        createRowsData : function(){
-        	// [[1,2,3],[11,22,33]]
-        	var rows = [];
-        	var data = this.bodyData;
-        	for(var i=0; i<data.length; i++){
-        		var rowData = data[i];
-        		var cols = [];
-        		rows.push(cols);
-        		cols[0] = rowData.stCode;
-        		cols[1] = rowData.name;
-        		cols[2] = rowData.currPrice;
-        		
-        		cols[3] = rowData.incPercent;
-        		cols[4] = rowData.max;
-        		cols[5] = rowData.min;
-        		
-        		cols[6] = rowData.avg;
-        		cols[7] = rowData.totalDealNum;
-        		cols[8] = rowData.totalDealPrice;
-        		
-        		cols[9] = rowData.startDate;
-        		cols[10] = rowData.endDate;
-        		cols[11] = rowData.preIncPercent;
-        		cols.unshift(i+1);
-        	}
-        	return rows;
-        },
+        
         render : function(){
-        	var self = this;
-        	var data = {
-        		cols : self.headData,
-        		rows : self.createRowsData()
-        	};
-        	var $head = this.el.find('thead');
-        	var $body = this.el.find('tbody');
+          
+            var data = this.data;
 
-        	var $headRow = $('<tr></tr>');
-        	data.cols.unshift("order");
-        	for(var i=0; i<data.cols.length; i++){
-        		var $col = $('<td></td>').text(data.cols[i]);
-        		$headRow.append($col);
-        	}
-        	$head.append($headRow);
-
-        	for(var i=0;i<data.rows.length;i++){
-        		var $row = $('<tr></tr>');
-        		for(var j=0;j<data.rows[i].length;j++){
-        			var $col = $('<td></td>').text(data.rows[i][j]);
-        			$row.append($col);
-        		}
-        		$body.append($row);
-        	}
-
-        },
-        render2 : function(){
-            var data = {
-                head : [],
-                body : [[{
-                    value:'',
-                    label:'',
-                    style:{}
-                },{}],[]]
-            };
-
-
+            var $head = this.el.find('thead');
             var $body = this.el.find('tbody');
+
+            var $headRow = $('<tr></tr>');
+            for(var i=0; i<data.head.length; i++){
+                var cell = data.head[i];
+                var $col = $('<td></td>').html(cell.label);
+                cell.style = cell.style || {};
+                $col.css(cell.style);
+                $headRow.append($col);
+            }
+            $head.append($headRow);
+
             var bodyData = data.body;
             for(var i=0;i<bodyData.length;i++){
                 var $row = $('<tr></tr>');
@@ -86,13 +39,12 @@ define(['jquery','text!grid.html', "text!grid.css", "jsrender"], function($,grid
                 for(var j=0;j<rowData.length;j++){
                     var cellData = rowData[j];
                     var $col = $('<td></td>').html(cellData.label);
-                    $col.css(style);
+                    cellData.style = cellData.style || {};
+                    $col.css(cellData.style);
                     $row.append($col);
                 }
                 $body.append($row);
             }
-
-
 
         },
     	setOptItem : function(){
