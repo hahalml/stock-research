@@ -20,17 +20,17 @@ class StockService extends IStockService {
 
   }
 
-  override def getStocksInfosByDay(startDate: String, endDate: String, stCodes:Seq[String] = Seq.empty[String]): Seq[Map[String, Any]] = {
-    
+  override def getStocksInfosByDay(startDate: String, endDate: String, stCodes: Seq[String] = Seq.empty[String]): Seq[Map[String, Any]] = {
+
     val stocks = StockDao.getStocks(QueryOption(startDate, endDate, Int.MaxValue))
-    .filter((stock:Map[String,Any])=>if(stCodes == null || stCodes.isEmpty ) true else stCodes.indexOf(stock("st_code").toString) > -1)
-    .groupBy((stock: Map[String, Any]) => stock("st_code").toString).values.toSeq
-    var st = Seq.empty[Map[String,Any]]
+      .filter((stock: Map[String, Any]) => if (stCodes == null || stCodes.isEmpty) true else stCodes.indexOf(stock("st_code").toString) > -1)
+      .groupBy((stock: Map[String, Any]) => stock("st_code").toString).values.toSeq
+    var st = Seq.empty[Map[String, Any]]
     for (groupedStocks <- stocks) {
-        val notDuplicateStocks = groupedStocks.groupBy((stock:Map[String,Any])=>stock("date").toString)
-        .values.toSeq.map((stocks:ArrayBuffer[Map[String,Any]])=>stocks(0)) 
-        val sortedStocks = notDuplicateStocks.sortBy((stock:Map[String,Any])=>stock("date").toString)
-    	st = st :+ doDailyStatistics(sortedStocks)
+      val notDuplicateStocks = groupedStocks.groupBy((stock: Map[String, Any]) => stock("date").toString)
+        .values.toSeq.map((stocks: ArrayBuffer[Map[String, Any]]) => stocks(0))
+      val sortedStocks = notDuplicateStocks.sortBy((stock: Map[String, Any]) => stock("date").toString)
+      st = st :+ doDailyStatistics(sortedStocks)
     }
     st
   }
@@ -134,33 +134,32 @@ class StockService extends IStockService {
     stocks(index)(field)
   }
 
- 
   private def doDailyStatistics(stocks: Seq[Map[String, Any]]) = {
     var stData = Seq.empty[Map[String, Any]]
     val num = stocks.size
     for (i <- 0 to num - 1) {
       val stock = stocks(i)
       val priceIncPercent = NumUtil.incPercent(stock("prev_close_price"), stock("curr_price"))
-      val dealNumIncPercent = if(i==0) "-" else NumUtil.incPercent(stocks(i-1)("deal_stock_num"), stock("deal_stock_num"))
-      val dealPriceIncPercent = if(i==0) "-" else  NumUtil.incPercent(stocks(i-1)("deal_price"), stock("deal_price"))
+      val dealNumIncPercent = if (i == 0) "-" else NumUtil.incPercent(stocks(i - 1)("deal_stock_num"), stock("deal_stock_num"))
+      val dealPriceIncPercent = if (i == 0) "-" else NumUtil.incPercent(stocks(i - 1)("deal_price"), stock("deal_price"))
       val price = stock("curr_price")
       val dealNum = stock("deal_stock_num")
       val dealPrice = stock("deal_price")
       val date = stock("date")
-      stData = stData :+ Map("date" -> date, "price" -> price, "dealPrice"->dealPrice, "dealNum" -> dealNum, "priceIncPercent" -> priceIncPercent, "dealNumIncPercent" -> dealNumIncPercent, "dealPriceIncPercent" -> dealPriceIncPercent)
+      stData = stData :+ Map("date" -> date, "price" -> price, "dealPrice" -> dealPrice, "dealNum" -> dealNum, "priceIncPercent" -> priceIncPercent, "dealNumIncPercent" -> dealNumIncPercent, "dealPriceIncPercent" -> dealPriceIncPercent)
     }
-    Map("stCode"->stocks(0)("st_code"), "data"->stData)
+    Map("stCode" -> stocks(0)("st_code"), "data" -> stData)
   }
 
-  
-  
-  private def doStdStocks(stocks:Seq[Map[String,Any]]) = {
-	  
+  private def doStdStocks(stocks: Seq[Map[String, Any]], period: Period) = {
+    Map("curr" -> "", "min" -> "", "max" -> "", "incPercent" -> "", "dateRange" -> "", "currDealNum" -> "", "incDealNum" -> "", "currDealPrice" -> "incDealPrice")
+    period match {
+      case ByDay => ""
+      case ByWeek => ""
+      case ByMonth => ""
+      case ByYear => ""
+    }
+
   }
-  
-  
-  
-  
-  
-  
+
 }
