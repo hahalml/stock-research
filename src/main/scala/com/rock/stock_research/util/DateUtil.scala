@@ -23,9 +23,25 @@ object DateUtil {
     calendar.setTime(date)
     calendar.get(Calendar.DAY_OF_WEEK)
   }
-  def daysAgo(days:Int) = {
-      val calendar = Calendar.getInstance()
-	  calendar.add(Calendar.DATE, days*(-1))
-	  sdf.format(calendar.getTime())
+  def getDateOfWeek(dateStr: String) = {
+    val date = sdf.parse(dateStr)
+    val calendar = Calendar.getInstance()
+    calendar.setTime(date)
+    calendar.get(Calendar.DAY_OF_WEEK)
+  }
+  def getDateOfMonth(date: Date) = {
+    val calendar = Calendar.getInstance()
+    calendar.setTime(date)
+    calendar.get(Calendar.DAY_OF_MONTH)
+  }
+  def getDateOfYear(date:Date) = {
+    val calendar = Calendar.getInstance()
+    calendar.setTime(date)
+    calendar.get(Calendar.DAY_OF_MONTH)
+  }
+  def daysAgo(days: Int) = {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DATE, days * (-1))
+    sdf.format(calendar.getTime())
   }
 }

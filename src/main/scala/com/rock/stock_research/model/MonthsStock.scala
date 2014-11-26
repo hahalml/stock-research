@@ -12,8 +12,9 @@ class MonthsStock(daysStockData: Seq[Map[String, Any]]) extends PeriodsStock(day
       for(i <- 0 to dates.length){
         val date = dates(i)
         val stocks = groupedMap(date)
-        doStatistic(stocks)
+        doStatistic(stocks, false)
       }
 	}
+   
     
 }

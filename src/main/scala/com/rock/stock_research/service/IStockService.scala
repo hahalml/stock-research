@@ -2,10 +2,16 @@ package com.rock.stock_research.service
 
 import scala.collection.mutable.ArrayBuffer
 import com.rock.stock_research.constant.Period
-
+import com.rock.stock_research.constant.ByDay
+import com.rock.stock_research.model.StockGroupStatistics
+import com.rock.stock_research.model.StockStatistics
+ 
 trait IStockService {
-  def getStocksInfo(startDate: String, endDate: String, period:Period):Seq[Map[String,Any]]
-  def getCurrentStockInfo(stCode:String):Map[String,String]
-  def getStockStatistics(daysAgo:Int, limitNum:Int) :ArrayBuffer[Map[String,Any]]
-  def getStocksInfosByDay(startDate: String, endDate: String, stCodes:Seq[String] = Seq.empty[String]):Seq[Map[String, Any]]
+ 
+ 
+  def statisticOfPeriod(symbols:Seq[String], startDate:String = "1900-01-01", endDate:String = "9999-01-01", offset:Int = 0, num:Int = Int.MaxValue ):Seq[StockStatistics]
+  
+  
+  
+  
 }

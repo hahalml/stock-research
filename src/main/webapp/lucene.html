@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>lucene test</title>
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+<script src="js/jquery-1.11.1.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<style type="text/css">
+	.container{
+		margin:0 auto;
+		width:800px;
+	}
+	button{
+	
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="search">
+			<input class='q' type="text" placeholder="input to search">
+			<button class="search-btn">search</button>
+		</div>
+		<div class="index">
+			<textarea class='content'></textarea>
+			<button class="doIndex">add doc</button>
+			<label class="msg"></label>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		$('body').on('click', '.search-btn', function(){
+			search();
+		})
+		$('body').on('click', '.doIndex', function(){
+			index();
+		})
+	});
+	
+	function search(){
+		var q = $('.q').val();
+		$.ajax({
+			url:"lucene/search",
+			dataType:"json",
+			data:"q="+q,
+			success:function(d){
+				console.log(d);
+			}
+		});
+	}
+	function index(){
+		var content = $('.content').val();
+		var data = JSON.stringify({
+			content:content
+		});
+		$.ajax({
+			url:"lucene/index",
+			type:"POST",
+			dataType:"json",
+			data:"data="+data,
+			success:function(d){
+				console.log(d);
+			}
+		});
+	}
+	
+	
+</script>
+
+
+
+
+
+
+</html>

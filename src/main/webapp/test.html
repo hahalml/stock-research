@@ -6,5 +6,22 @@
 </head>
 <body>
 test stock research
+
+<table class="table">
+				<thead>
+					<tr class="company-title" data-id="${data.company.companyId}">
+						<th>${data.company.name}(sz:${data.company.ticker})</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>公司全称: ${data.company.name}</td>
+						<td>英文名称: ${data.company.engName}</td>
+					</tr>
+					 
+				</tbody>
+			</table>
+			
 </body>
 </html>

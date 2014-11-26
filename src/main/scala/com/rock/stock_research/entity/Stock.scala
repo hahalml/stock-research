@@ -1,10 +1,18 @@
 package com.rock.stock_research.entity
-
 import sorm.sql.Sql.Table
+import scala.xml.Null
+import scala.beans.BeanProperty
 
-//import sorm.ddl.Table
-abstract class ST
+class Stock() {
+  @BeanProperty var id: Int = -1
+  @BeanProperty var name: String = null
+  @BeanProperty var open_price: Double = -1
+  @BeanProperty var curr_price: Double = -1
+  @BeanProperty var date: String = null
+  @BeanProperty var st_code: String = null
+  @BeanProperty var time: String = null
+  @BeanProperty var deal_stock_num: Int = -1
+  @BeanProperty var deal_price: Double = -1
+  @BeanProperty var prev_close_price: Double = -1
 
-case class Stock(stCode:String, name: String, openPrice: Double, prevClosePrice: Double, currPrice: Double,  dealStockNum: Long, dealPrice: Double,  date: String, time: String, originalStr:String) extends ST
-
-case class StockIndex(stCode:String, name: String, open: Double, prevClose: Double, curr: Double,  dealStockNum: Long, dealPrice: Double,  date: String, time: String, originalStr:String) extends ST
+}

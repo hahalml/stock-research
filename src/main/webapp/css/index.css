@@ -1,0 +1,27 @@
+.container{
+	margin: 0 auto;
+	margin-top: 20px;
+	font-size: 13px;
+	min-height: 500px;
+}
+.container  .nav{
+	width: 100px;
+	display: inline-block;
+	background: #FEF9F9;
+	padding:5px;
+	min-height: 500px;
+}
+.container .tab-content{
+	display: inline-block;
+	vertical-align:top;
+	background: #FEF9F9;
+	margin-left: 5px;
+	padding:5px;
+min-height: 500px;
+}
+li{
+	cursor: pointer;
+}
+.ui-datepicker table{
+	font-size: 12px;
+}

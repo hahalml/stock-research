@@ -1,40 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-#myTable td, #myTable th{
-	padding-right: 10px;
-}
-.stock-grid{
-	height:500px;
-	overflow: scroll;
-}
-ul.nav li{
-	cursor: pointer;
-}
-table ul, table li{
-	list-style: none;
-	padding: 0px;
-}
-</style>
-<meta charset="GB2312">
-<meta http-equiv="Content-Type content=text/html;charset=gb2312">
-<title>rock's home</title>
-<script src="js/lib/require.js" data-main="js/main.js"></script>
+
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type content=text/html;charset=utf-8">
+<title>Stock Research</title>
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+<script src="js/jquery-1.11.1.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+
+<link rel="stylesheet" href="css/jquery-ui.css">
+<script src="js/jquery-ui.js"></script>
+<link rel="stylesheet" href="css/style.css">
+   
+<script src="js/index.ui.js"></script>
+<script src="js/index.controller.js"></script>
 </head>
 <body>
+ 
 	<div class='container'>
-		<ul class="nav">
-			<li class="days-ago-stat">days ago statistic</li>
-			<li class="day-by-day-stat">day statistic</li>
-		</ul>
-		<div class="content">
-			<div class="setting">
-				<div class="start-date"></div>
-				<div class="end-date"></div>
-			</div>
-			<div class='stock-grid'></div>
-		</div>
+		<div class="tabbable tabs-left">
+			<ul class="nav nav-list">
+				<li>主页</li>
+				<li>Java</li>
+				<li>Scala</li>
+				<li>Clojure</li>
+				<li>Groovy></li>
+			</ul>
+	 		<div class="tab-content">
+	 			<div class="tab-pane">
+	 				<div class="settings">
+	 					<span class="label label-info">A</span>
+	 					<span class="label label-info">B</span>
+	 					<span class="label label-info">C</span>
+	 					<label>开始时间:</label>
+	 					<input type="text" class="datepicker">
+	 					<label>结束时间:</label>
+	 					<input type="text" class="datepicker">
+	 				</div>
+	 				<table class="table stock-info-days-summary">
+						<thead>
+							<tr>
+								<th>股票代码</th>
+								<th>股票名称</th>
+								<th>当前价</th>
+								<th>最高</th>
+								<th>最低</th>
+								<th>均值</th>
+								<th>涨幅</th>
+								<th>昨日涨幅</th>
+								<th>开始时间</th>
+								<th>结束时间</th>
+								<th>总成交量</th>
+								<th>总成交价</th>
+							</tr>
+						</thead>
+						<tbody>
+							 
+							 
+						</tbody>
+					</table>
+	 			</div>
+	 			<div class="tab-pane active">
+	 				<div class="settings">
+	 					<span class="label label-info">A</span>
+	 					<span class="label label-info">B</span>
+	 					<span class="label label-info">C</span>
+	 					<label>开始时间:</label>
+	 					<input type="text" class="datepicker">
+	 					<label>结束时间:</label>
+	 					<input type="text" class="datepicker">
+	 				</div>
+	 				<table class="table stocks-periods-summary">
+						<thead>
+							<tr>
+								<th>股票代码</th>
+								<th>股票名称</th>
+								 
+							</tr>
+						</thead>
+						<tbody>
+							 
+							 
+						</tbody>
+					</table>
+	 			</div>
+	 		</div>
+ 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	 $(function() {
+    	$( ".datepicker" ).datepicker();
+  	 });
+</script>
 </html>

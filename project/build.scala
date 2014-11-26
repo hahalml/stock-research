@@ -33,13 +33,17 @@ object StockResearchBuild extends Build {
         "org.sorm-framework" % "sorm" % "0.3.15",
         "org.json4s" %% "json4s-native" % "3.2.10",
         "jaxen" % "jaxen" % "1.1.4",
-
+         "org.scalatra" %% "scalatra-json" % "2.3.0",
+         "org.json4s"   %% "json4s-jackson" % "3.2.9",
         "dom4j" % "dom4j" % "1.6.1",
         "commons-dbutils" % "commons-dbutils" % "1.6",
         "c3p0" % "c3p0" % "0.9.1.2",
         "commons-io" % "commons-io" % "2.4",
         "com.lambdaworks" %% "jacks" % "2.3.3",
         "mysql" % "mysql-connector-java" % "5.1.30",
+          "io.spray" %%  "spray-json" % "1.3.0",
+          "org.json4s" %% "json4s-native" % "3.2.10",
+          "com.alibaba" % "fastjson" % "1.1.41",
         "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container;provided;test" artifacts (Artifact("javax.servlet", "jar", "jar"))),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) { base =>
         Seq(
