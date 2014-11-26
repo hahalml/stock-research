@@ -43,21 +43,31 @@ class StockService extends IStockService {
      
   }
 
-  def test{
-    val stocks = Seq.empty[Stock]
+  def getStocksStatisticByPeriods{
+//    val stocks = Seq.empty[Stock]
     val a = 0
-    stocks.groupBy((stock: Stock) => stock.getSt_code).values.map {
-      stockDatas =>
-        val groupedStockDatas = a match {
-		   case 1 => stockDatas.groupBy{stock:Stock => stock.date.substring(0,4)}.values.toSeq // group by year
-		   case 2 => stockDatas.groupBy{stock:Stock => stock.date.substring(0,7)}.values.toSeq // group by month
-		   case 3 => stockDatas.groupBy{stock:Stock => stock.date.substring(0,10)}.values.toSeq //group by day
-		   case _ => stockDatas.groupBy{stock:Stock => stock.date.substring(0,4)+"_"+DateUtil.getDateOfWeek(stock.date)}.values.toSeq //group by week
-		}
-		        
-        
-    }.toSeq
+//    stocks.groupBy((stock: Stock) => stock.getSt_code).values.map {
+//      stockDatas =>
+//        val groupedStockDatas = a match {
+//		   case 1 => stockDatas.groupBy{stock:Stock => stock.date.substring(0,4)}.values.toSeq // group by year
+//		   case 2 => stockDatas.groupBy{stock:Stock => stock.date.substring(0,7)}.values.toSeq // group by month
+//		   case 3 => stockDatas.groupBy{stock:Stock => stock.date.substring(0,10)}.values.toSeq //group by day
+//		   case _ => stockDatas.groupBy{stock:Stock => stock.date.substring(0,4)+"_"+DateUtil.getDateOfWeek(stock.date)}.values.toSeq //group by week
+//		}
+//		        
+//        
+//    }.toSeq
     
+    val allStocks = Seq.empty[Stock]
+    val stocksBySymbol = allStocks.groupBy{stock => stock.st_code }.values.toSeq
+    for(stocks <- stocksBySymbol){
+       val stocksByPeriod = a match {
+		   case 1 => stocks.groupBy{stock:Stock => stock.date.substring(0,4)}.values.toSeq // group by year
+		   case 2 => stocks.groupBy{stock:Stock => stock.date.substring(0,7)}.values.toSeq // group by month
+		   case 3 => stocks.groupBy{stock:Stock => stock.date.substring(0,10)}.values.toSeq //group by day
+		   case _ => stocks.groupBy{stock:Stock => stock.date.substring(0,4)+"_"+DateUtil.getDateOfWeek(stock.date)}.values.toSeq //group by week
+		}
+    }
   }
   
   
