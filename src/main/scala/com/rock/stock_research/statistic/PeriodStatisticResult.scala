@@ -4,6 +4,7 @@ import scala.beans.BeanProperty
 
 class PeriodStatisticResult {
 
+  @BeanProperty var symbol = ""
   @BeanProperty var min = "-"
   @BeanProperty var max = "-"
   @BeanProperty var avg = "-"
