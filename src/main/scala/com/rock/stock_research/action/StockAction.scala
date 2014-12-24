@@ -10,15 +10,17 @@ import org.json4s.JsonDSL._
 import com.lambdaworks.jacks.JacksMapper
 import com.rock.stock_research.constant._
 import com.rock.stock_research.dao.StockDao
-
 import com.rock.stock_research.entity.Stock
 import com.rock.stock_research.util.DateUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.alibaba.fastjson.JSON
+import com.rock.stock_research.statistic.DayPeriod
+import com.rock.implict.ImplictTypes._
+import scalaz.Split
 
 class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSupport {
 
-//  private val stockService: IStockService = new StockService()
+  private val stockService: IStockService = new StockService()
 //
 //  get("/stocks-infos-days-ago") {
 //    try {
@@ -53,4 +55,32 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
 //    stCodes.split(",").filter((stCode: String) => stCode != null && !stCode.trim().isEmpty())
 //
 //  }
+  
+  get("/stock-field-stat") {
+    val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")
+    val field = request.getParameter("field")
+    val stocksInfos = stockService getStockStat(field = field, symbols = Seq.empty[String], period = DayPeriod)
+    JacksMapper.writeValueAsString(stocksInfos)
+     
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }

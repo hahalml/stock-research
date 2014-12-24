@@ -21,7 +21,19 @@ object ImplictTypes extends App{
   }
   implicit def toScaleNum(value: AnyVal) = new ScaleNum(value)
   implicit def toScaleNum(value: String) = new ScaleNum(value)
-  println(3.toFix(3))
-  println(3.126.toFix(2))
-  println("3.126".toFix(2))
+  
+  
+  
+  class SplitabledString(str:String){
+    def toSet(token:String) = {
+      str match {
+          case null => Set.empty[String]
+          case str if str.trim().isEmpty() => Set.empty[String]
+          case _ => str.split(token).toSet
+        }
+    }
+  }
+  
+   implicit def toSplitabledString(value: String) = new SplitabledString(value)
+  
 }

@@ -11,6 +11,7 @@ class StatisticResult {
   @BeanProperty var start = "-"
   @BeanProperty var end = "-"
   @BeanProperty var symbol = "-"
+  @BeanProperty var name = "-"
 }
  
 object StatisticResult{
@@ -25,6 +26,7 @@ object StatisticResult{
 		res.start = stocks.head("date").toString
 		res.end = stocks.last("date").toString
 		res.symbol = stocks.head("st_code").toString
+		res.name = stocks.head("name").asInstanceOf[String]
 		if(!notEmptyStocks.isEmpty){ 
 			res.current = stocks.last(field).toString.toFix(2)
 			val sortedStocks = stocks.sortBy{stock => stock(field).toString.toDouble}
