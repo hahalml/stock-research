@@ -32,10 +32,14 @@ object StatisticResult{
 			val sortedStocks = stocks.sortBy{stock => stock(field).toString.toDouble}
 			res.min = sortedStocks.head(field).toString.toFix(2)
 			res.max = sortedStocks.last(field).toString.toFix(2)
-			val total  = sortedStocks.foldLeft(0.0)((v:Double, stock:Map[String,Object])=> v + stock(field).toString.toDouble)
-			res.total = total.toFix(2)
-			res.avg = (total/sortedStocks.size).toFix(2)
+			if(field == "deal_stock_num" || field == "deal_price"){
+			  val total  = sortedStocks.foldLeft(0.0)((v:Double, stock:Map[String,Object])=> v + stock(field).toString.toDouble)
+			  res.total = total.toFix(2)
+			  res.avg = (total/sortedStocks.size).toFix(2)
+			}
+			 
 		}
 		res
 	}
+	 
 }
