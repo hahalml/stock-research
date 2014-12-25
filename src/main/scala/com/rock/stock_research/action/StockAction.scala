@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON
 import com.rock.stock_research.statistic.DayPeriod
 import com.rock.implict.ImplictTypes._
 import scalaz.Split
+import com.rock.stock_research.statistic.ComparedStatisticResult
 
 class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSupport {
 
@@ -60,11 +61,15 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
     val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")
     val field = request.getParameter("field")
     val stocksInfos = stockService getStockStat(field = field, symbols = Seq.empty[String], period = DayPeriod)
-    JacksMapper.writeValueAsString(stocksInfos)
+    val grid = Map("head" -> createGridHead(stocksInfos), "data" -> stocksInfos)
+    JacksMapper.writeValueAsString(grid)
      
   }
   
-  
+  def createGridHead(stocksInfos:Seq[Seq[ComparedStatisticResult]]) = {
+    val maxCols = stocksInfos.maxBy{stocks=>stocks.size}
+    maxCols.map{stat => stat.start +" ~ "+stat.end }
+  }
   
   
   

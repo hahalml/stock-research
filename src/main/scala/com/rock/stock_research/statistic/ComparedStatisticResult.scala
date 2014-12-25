@@ -5,6 +5,19 @@ import com.rock.stock_research.util.NumUtil
 
 class ComparedStatisticResult extends StatisticResult{
 	@BeanProperty var incPercent = "-"
+	
+    def overrideWith(stmt:ComparedStatisticResult){ 
+        this.name = stmt.name
+        this.start = stmt.start 
+        this.end = stmt.end
+        this.current = stmt.current 
+        this.min = stmt.min
+        this.max = stmt.max 
+        this.avg = stmt.avg
+        this.total = stmt.total 
+        this.symbol = stmt.symbol 
+        this.incPercent = stmt.incPercent 
+	}
 }
 object ComparedStatisticResult{
   def apply(r1:StatisticResult, r2:StatisticResult) = {
@@ -21,4 +34,5 @@ object ComparedStatisticResult{
     res.incPercent = if(r1.current == "-" || r2.current == "-") "-" else NumUtil.incPercent(r1.current , r2.current )
     res
   }
+  
 }
