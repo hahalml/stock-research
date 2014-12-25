@@ -61,14 +61,13 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
     val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")
     val field = request.getParameter("field")
     val stocksInfos = stockService getStockStat(field = field, symbols = Seq.empty[String], period = DayPeriod)
-    val grid = Map("head" -> createGridHead(stocksInfos), "data" -> stocksInfos)
+    val grid = Map("head" -> createGridHead(stocksInfos), "body" -> stocksInfos)
     JacksMapper.writeValueAsString(grid)
      
   }
   
   def createGridHead(stocksInfos:Seq[Seq[ComparedStatisticResult]]) = {
-    val maxCols = stocksInfos.maxBy{stocks=>stocks.size}
-    maxCols.map{stat => stat.start +" ~ "+stat.end }
+    stocksInfos.head.map{stat => stat.start +" ~ "+stat.end }
   }
   
   
