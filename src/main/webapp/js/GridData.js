@@ -1,8 +1,9 @@
 (function() {
-    rock = rock || {};
-    var GridData = rock.GridData = function(data, field) {
+
+    GridData = function(data, field) {
         this._data = data;
         this._field = field;
+        this.init();
     };
     GridData.prototype = {
         init: function() {
@@ -17,7 +18,11 @@
                     cols[j] = rowData[j][field];
                 }
                 this.bodyData.push(cols);
+                cols.unshift(rowData[0].name);
+                cols.unshift(rowData[0].symbol);
             }
+            this.headData.unshift("股票名称");
+            this.headData.unshift("股票代码");
         }
     }
 })();

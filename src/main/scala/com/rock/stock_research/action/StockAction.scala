@@ -8,7 +8,7 @@ import com.rock.stock_research.service.IStockService
 import scala.collection.mutable.ArrayBuffer
 import org.json4s.JsonDSL._
 import com.lambdaworks.jacks.JacksMapper
-import com.rock.stock_research.constant._
+
 import com.rock.stock_research.dao.StockDao
 import com.rock.stock_research.entity.Stock
 import com.rock.stock_research.util.DateUtil
@@ -58,13 +58,26 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
 //  }
   
   get("/stock-field-stat") {
-    val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")
-    val field = request.getParameter("field")
-    val stocksInfos = stockService getStockStat(field = field, symbols = Seq.empty[String], period = DayPeriod)
-    val grid = Map("head" -> createGridHead(stocksInfos), "body" -> stocksInfos)
-    JacksMapper.writeValueAsString(grid)
-     
+
+    try {
+      val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")
+      val field = request.getParameter("field")
+      val stocksInfos = stockService getStockStat (field = field, symbols = Seq("sz300155","sh600008", "sh600017"), period = DayPeriod)
+      val grid = Map("head" -> createGridHead(stocksInfos), "body" -> stocksInfos)
+      JacksMapper.writeValueAsString(grid)
+    } catch {
+      case t: Exception => 
+        t.printStackTrace()
+        JacksMapper.writeValueAsString(t.toString())
+    }
   }
+   get("/index-field-stat") {
+     
+   }
+   get("/autocomplete") {
+     val query = request.getParameter("query")
+     JacksMapper.writeValueAsString(stockService autocomplete query)
+   }
   
   def createGridHead(stocksInfos:Seq[Seq[ComparedStatisticResult]]) = {
     stocksInfos.head.map{stat => stat.start +" ~ "+stat.end }

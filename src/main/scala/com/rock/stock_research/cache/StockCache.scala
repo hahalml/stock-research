@@ -14,15 +14,10 @@ object StockCache extends App {
       stock => (stock("st_code").toString, stock("name").toString)
     }.toSet
   }
+  
   def get(codeOrName: String) = {
     stocks.filter { stock => stock._1.toLowerCase().contains(codeOrName.toLowerCase()) || stock._2.toLowerCase.contains(codeOrName.toLowerCase) }
   }
 
-  var a = {
-    println("init a")
-    123
-  }
-
-  println(a)
-  println(a)
+  
 }

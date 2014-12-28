@@ -2,3 +2,12 @@ body {
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: 62.5%;
 }
+.label{
+	cursor: pointer;
+}
+.nowrap{
+	white-space:nowrap;
+}
+.settings, .stock-field{
+	margin-top: 5px;
+}

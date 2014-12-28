@@ -5,8 +5,6 @@ import scala.collection.JavaConversions._
 import com.rock.stock_research.entity.Stock
 import com.alibaba.fastjson.JSON
 import scala.util.parsing.json.JSON
-import com.rock.stock_research.model.StockStatistics
-import com.rock.stock_research.model.StockStatistics
 import com.rock.stock_research.util.NumUtil
 import com.rock.stock_research.util.DateUtil
 import com.rock.stock_research.statistic.PeriodStatistic
@@ -24,10 +22,15 @@ import com.rock.stock_research.statistic.ComparedStatisticResult
 import scala.collection.mutable.ArrayBuffer
 import com.rock.stock_research.statistic.TimePeriod
 import com.rock.stock_research.statistic.TimePeriod
+import com.rock.stock_research.cache.StockCache
 
 class StockService extends IStockService {
   System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-
+  override def autocomplete(query:String):Seq[Map[String, String]] = {
+	  StockCache.get(query).map{
+		  stock => Map("symbol"->stock._1, "name"->stock._2)
+	  }.toSeq
+  }
   override def getStockStat(field: String, symbols: Seq[String], startDate: String = "1900-01-01", endDate: String = "9999-01-01", period: TimePeriod = DayPeriod): Seq[Seq[ComparedStatisticResult]] = {
     val eqFields = symbols.map {
       symbol => ("st_code", symbol)
