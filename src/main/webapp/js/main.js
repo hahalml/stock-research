@@ -1,7 +1,13 @@
 (function(){
 	var init = function(){
-		bindEvent();
-		loadStock();		 
+		window.gridData = {
+			field:"current",
+			data:null
+		};
+		$(document).ready(function(){
+			bindEvent();
+			loadStock();
+		});		 
 	};
 
 	var loadStock = function(){
@@ -10,30 +16,55 @@
 			"data": "field=curr_price&symbols=",
 			"dataType": "json",
 			"success": function(data){
-				var gridData = new GridData(data, "current");
-				var grid = new Grid($('.stock-grid'),gridData.headData, gridData.bodyData);
+				window.gridData.field = "current";
+				window.gridData.data = data;
+				createGrid();
 			}
 		});
 	};
 	
-	var autocomplete = function(q){
+	var autocomplete = function(q, event){
 		$.ajax({
 			"url": "/autocomplete",
 			"data": "query="+q,
 			"dataType": "json",
 			"success": function(data){
-				 var dropDown = new Dropdown(data);
+				console.log(data);
+				createDropdownList(data, event);			
 			}
 		});
 	};
-	
-	var bindEvent = function(){
-		$('body').on('.search-stock', 'keyup', function(e){
-			//var q = $(e.target || e.srcElement).val();
-			//autocomplete(q);
+	var createDropdownList = function(data, event){
+		var d = [];
+		for(var i=0; i<data.length; i++){
+			d.push(data[i].symbol + "  " +data[i].name);
+		}
+		var offset = $(event.target || event.srcElement).offset();
+		var dropdown = new DropdownList(d, {
+			left: offset.left,
+			top: offset.top
 		});
-		 
 	};
-
+	var bindEvent = function(){
+		$('body').on('keyup', '.search-stock', function(e){
+			var q = $(e.target || e.srcElement).val();
+			autocomplete(q, e);
+			 
+		});
+		bindFieldEvent();
+	};
+	var bindFieldEvent = function(){
+		$('body').on('click', '.settings span', function(e){
+			var field = $(e.target || e.srcElement).attr('v');
+			gridData.field = field;
+			createGrid();
+		});
+	};
+	var createGrid = function(){
+		var gridData = new GridData(window.gridData.data, window.gridData.field);
+		$('.stock-grid').empty();
+		var grid = new Grid($('.stock-grid'),gridData.headData, gridData.bodyData);
+		window.grid = grid;
+	};
 	init();
 })();

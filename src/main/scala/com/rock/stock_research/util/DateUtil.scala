@@ -18,16 +18,14 @@ object DateUtil {
     sdf.parse(date)
   }
 
-  def getDateOfWeek(date: Date) = {
+  def getWeekOfYear(date: Date):Int = {
     val calendar = Calendar.getInstance()
     calendar.setTime(date)
-    calendar.get(Calendar.DAY_OF_WEEK)
+    calendar.get(Calendar.WEEK_OF_YEAR)
   }
-  def getDateOfWeek(dateStr: String) = {
-    val date = sdf.parse(dateStr)
-    val calendar = Calendar.getInstance()
-    calendar.setTime(date)
-    calendar.get(Calendar.DAY_OF_WEEK)
+  def getWeekOfYear(dateStr: String):Int = {
+    getWeekOfYear(sdf.parse(dateStr))
+    
   }
   def getDateOfMonth(date: Date) = {
     val calendar = Calendar.getInstance()

@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSON
 import com.rock.stock_research.service.StockService
 import com.rock.stock_research.service.IStockService
 import com.lambdaworks.jacks.JacksMapper
-import com.rock.stock_research.constant.ByWeek
+ 
 
     
 object StockDao {

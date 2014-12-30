@@ -29,7 +29,7 @@ class StockService extends IStockService {
   override def autocomplete(query:String):Seq[Map[String, String]] = {
 	  StockCache.get(query).map{
 		  stock => Map("symbol"->stock._1, "name"->stock._2)
-	  }.toSeq
+	  }.toSeq.take(10)
   }
   override def getStockStat(field: String, symbols: Seq[String], startDate: String = "1900-01-01", endDate: String = "9999-01-01", period: TimePeriod = DayPeriod): Seq[Seq[ComparedStatisticResult]] = {
     val eqFields = symbols.map {
@@ -89,7 +89,7 @@ class StockService extends IStockService {
   private def groupedByPeriod(stocks: Seq[Map[String, Object]], period: TimePeriod) = {
     val res = period match {
       case DayPeriod => stocks.groupBy { stock => stock("date").toString }.values.toSeq
-      case WeekPeriod => stocks.groupBy { stock => stock("date").toString.substring(0, 4) + "_w_" + DateUtil.getDateOfWeek(stock("date").toString) }.values.toSeq
+      case WeekPeriod => stocks.groupBy { stock => stock("date").toString.substring(0, 4) + "_w_" + DateUtil.getWeekOfYear(stock("date").toString) }.values.toSeq
       case MonthPeriod => stocks.groupBy { stock => stock("date").toString.substring(0, 7) }.values.toSeq
       case YearPeriod => stocks.groupBy { stock => stock("date").toString.substring(0, 4) }.values.toSeq
     }

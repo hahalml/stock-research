@@ -40,6 +40,13 @@
 			cellName = cellName || 'td';
 			var cell = $('<'+cellName+'></'+cellName+">");
 			cell.html(cellData);
+			if(cellData.indexOf('%') > -1){
+				if(cellData != '-' && cellData.indexOf('-') > -1){
+					cell.css('color', 'green');
+				}else{
+					cell.css('color', 'red');
+				}
+			}
 			return cell;
 		},
 	};

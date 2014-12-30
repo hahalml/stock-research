@@ -8,7 +8,7 @@
     GridData.prototype = {
         init: function() {
             var data = this._data;
-            this.headData = data.head;
+            this.headData = data.head.slice(0, data.head.length);
             this.bodyData = [];
             var field = this._field;
             for (var i = 0; i < data.body.length; i++) {
