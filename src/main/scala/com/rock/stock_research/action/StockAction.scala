@@ -83,6 +83,7 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
       case t: Exception =>
         t.printStackTrace()
         JacksMapper.writeValueAsString(t.getMessage())
+         
     }
   }
 

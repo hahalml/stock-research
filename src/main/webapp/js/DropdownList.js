@@ -9,9 +9,9 @@
 		init: function(){
 			var data = thhis.data;
 			var html = [];
-			html.push('<ul class="dropdown-menu">');
+			html.push('<ul class="list-group">');
 			for(var i=0; i<data.length; i++){
-				html.push('<li>');
+				html.push('<li class="list-group-item">');
 				html.push(data[i]);
 				html.push('</li>');
 			}

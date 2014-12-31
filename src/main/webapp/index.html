@@ -9,8 +9,11 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
     <script src="js/jquery-1.11.1.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="bootstrap/js/bootstrap-datetimepicker.js"></script>
 
     <link rel="stylesheet" href="css/jquery-ui.css">
     <script src="js/jquery-ui.js"></script>
@@ -23,36 +26,60 @@
 <body>
 
     <div class='container'>
-    	<div class="add-stock">
-    		<input class="search-stock" type="text" placeholder="代码/拼音/名称"><span class="help-inline">搜索股票</span>
-    	</div>
-        <div class="stock-field">
-            <span class="label label-info" field="curr_price">股价</span>
-            <span class="label label-info" field="deal_stock_num">成交量</span>
-            <span class="label label-info" field="deal_price">成交额</span>
+        <div class="stock-category">
+        	<div class="stock-cat-nav"></div>
+            <div class="cat-grid"></div>
         </div>
-        <div class="settings" show="current">
-            <span class="label label-info" v="current">current</span>
-            <span class="label label-info" v="min">min</span>
-            <span class="label label-info" v="max">max</span>
-            <span class="label label-info" v="avg">avg</span>
-            <span class="label label-info" v="total">total</span>
-            <span class="label label-info" v="incPercent">inc %</span>
+        <div class="stock-data">
+            <div class="add-stock">
+                <input class="search-stock" type="text" placeholder="代码/拼音/名称"><span class="help-inline">搜索股票</span>
+            </div>
+            <div class="stock-field">
+                <span class="label label-info" field="curr_price">股价</span>
+                <span class="label label-info" field="deal_stock_num">成交量</span>
+                <span class="label label-info" field="deal_price">成交额</span>
+            </div>
+            <div class="settings" show="current">
+                <span class="label label-info" v="current">current</span>
+                <span class="label label-info" v="min">min</span>
+                <span class="label label-info" v="max">max</span>
+                <span class="label label-info" v="avg">avg</span>
+                <span class="label label-info" v="total">total</span>
+                <span class="label label-info" v="incPercent">inc %</span>
 
-            <label>开始时间:</label>
-            <input type="text" class="datepicker">
-            <label>结束时间:</label>
-            <input type="text" class="datepicker">
-        </div>
-        <div class="stock-grid">
+                <label>开始时间:</label>
+                <input type="text" class="datepicker">
+                <label>结束时间:</label>
+                <input type="text" class="datepicker">
+            </div>
+            <div class="stock-grid">
 
+            </div>
         </div>
     </div>
 </body>
 <script type="text/javascript">
 $(function() {
-    $(".datepicker").datepicker();
+    //  $(".datepicker").datepicker();
+    $('.datepicker').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh',
+        startView: 2,
+        minView: 2,
+        maxView: 2,
+        autoclose: true,
+        pickerPosition: "bottom-right"
+    });
 });
+
+$.fn.datetimepicker.dates['zh'] = {
+    days: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    daysMin: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    today: "今天"
+};
 </script>
 
 </html>

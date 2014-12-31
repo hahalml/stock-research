@@ -4,6 +4,8 @@
 			field:"current",
 			data:null
 		};
+		window.stockField = 'curr_price';
+		window.symbols = "";
 		$(document).ready(function(){
 			bindEvent();
 			loadStock();
@@ -13,7 +15,7 @@
 	var loadStock = function(){
 		$.ajax({
 			"url": "/stock-field-stat",
-			"data": "field=curr_price&symbols=",
+			"data": "field="+stockField+"&symbols="+symbols,
 			"dataType": "json",
 			"success": function(data){
 				window.gridData.field = "current";
@@ -60,6 +62,14 @@
 			createGrid();
 		});
 	};
+
+	var bindStockField = function(){
+		$('body').on('click', '.stock-field span', function(e){
+			stockField = $(e.target || e.srcElement).attr('field');
+			loadStock();
+		});
+	};
+	//stock-field
 	var createGrid = function(){
 		var gridData = new GridData(window.gridData.data, window.gridData.field);
 		$('.stock-grid').empty();
