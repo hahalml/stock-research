@@ -31,13 +31,23 @@
             <div class="cat-grid"></div>
         </div>
         <div class="stock-data">
-            <div class="add-stock">
+           <!--  <div class="add-stock">
                 <input class="search-stock" type="text" placeholder="代码/拼音/名称"><span class="help-inline">搜索股票</span>
+            </div> -->
+            <div class="form-search stock-search">
+            	<input type="text" class="input-medium search-query"/>
+            	<button type="button" class="btn btn-search">Search</button>
             </div>
             <div class="stock-field">
                 <span class="label label-info" field="curr_price">股价</span>
                 <span class="label label-info" field="deal_stock_num">成交量</span>
                 <span class="label label-info" field="deal_price">成交额</span>
+            </div>
+             <div class="stock-period">
+                <span class="label label-info" field="curr_price">按日</span>
+                <span class="label label-info" field="deal_stock_num">按周</span>
+                <span class="label label-info" field="deal_price">按月</span>
+                <span class="label label-info" field="deal_price">按年</span>
             </div>
             <div class="settings" show="current">
                 <span class="label label-info" v="current">current</span>

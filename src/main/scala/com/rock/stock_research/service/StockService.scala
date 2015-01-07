@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON
 import scala.util.parsing.json.JSON
 import com.rock.stock_research.util.NumUtil
 import com.rock.stock_research.util.DateUtil
-import com.rock.stock_research.statistic.PeriodStatistic
+
 import com.rock.stock_research.statistic.DayPeriod
 import com.rock.stock_research.statistic.TimePeriod
 import com.rock.stock_research.statistic.TimePeriod

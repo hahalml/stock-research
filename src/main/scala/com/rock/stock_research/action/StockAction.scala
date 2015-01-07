@@ -61,9 +61,9 @@ class StockAction extends ScalatraServlet with FlashMapSupport with ScalateSuppo
   get("/stock-field-stat") {
 
     try {
-      val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")
+      val symbols = new SplitabledString(request.getParameter("symbols")).toSet(",")//Seq("sz300155", "sh600008", "sh600017")
       val field = request.getParameter("field")
-      val stocksInfos = stockService getStockStat (field = field, symbols = Seq("sz300155", "sh600008", "sh600017"), period = MonthPeriod)
+      val stocksInfos = stockService getStockStat (field = field, symbols = symbols.toSeq, period = MonthPeriod)
       val grid = Map("head" -> createGridHead(stocksInfos), "body" -> stocksInfos)
       JacksMapper.writeValueAsString(grid)
     } catch {
