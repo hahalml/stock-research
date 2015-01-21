@@ -10,3 +10,7 @@
 以上从 excel获取  
 http://quotes.money.163.com/service/zycwzb_600036.html?type=report
  http://quotes.money.163.com/service/zycwzb_600036.html?type=year
+ 
+ 
+ 分红配股
+ http://quotes.money.163.com/f10/fhpg_600030.html#09c01
