@@ -1,0 +1,12 @@
+统计以下信息：
+主营业务收入
+主营业务利润
+基本每股收益
+净资产收益率
+总资产
+股东权益
+经营活动现金流净额
+
+以上从 excel获取  
+http://quotes.money.163.com/service/zycwzb_600036.html?type=report
+ http://quotes.money.163.com/service/zycwzb_600036.html?type=year

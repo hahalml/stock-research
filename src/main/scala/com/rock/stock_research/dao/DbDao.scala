@@ -10,9 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 
 object DbDao extends App{
-  def get(table: String, fields: Set[String]):Seq[Map[String,Any]] = {
-    get(table, fields)
-  }
+ 
 
   def get(table: String, fields: Set[String], eqField: (String, Any) = null):Seq[Map[String,Object]] = {
     val start = System.currentTimeMillis()
@@ -47,7 +45,7 @@ object DbDao extends App{
   }
   
   var data = get("stock", Set("name", "date"), Seq(("st_code","sz300101"), ("st_code","sz002708"), ("st_code","sz002708"), ("st_code","sz002708"), ("st_code","sz002708")))
-  println(data)
+  println(data.size)
   
 // overloaded method value get with alternatives: (table: String,fields: Set[String],eqFields: Set[(String, Any)])Set[Seq[Map[String,Object]]] <and> (table: String,fields: 
 // Set[String],eqField: (String, Any))Seq[scala.collection.immutable.Map[String,Object]] cannot be applied to (String, scala.collection.immutable.Set[String], 

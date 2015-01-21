@@ -27,7 +27,7 @@ object Craweler extends App {
   println(stocks.length + "," + stocks.toSet.size)
   
   
-  
+  //     http://hq.sinajs.cn/list=sh600000
   
   
   testDebug
