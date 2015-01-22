@@ -22,4 +22,4 @@ libraryDependencies += "org.scalaj" %% "scalaj-http" % "0.3.16"
  
 libraryDependencies += "org.jsoup" % "jsoup" % "1.8.1"
 
- 
+libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.1.2"

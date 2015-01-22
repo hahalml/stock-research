@@ -49,5 +49,21 @@
 			}
 			return cell;
 		},
+		addRows: function(rowDatas){
+			var gridBody = this.el.find('tbody');
+			for(var j=0; j<rowDatas.length; j++){
+				var row = $('<tr></tr>');
+				var rowData = rowDatas[j];
+				for(var i=0; i<rowData.length; i++){
+					var cell = this.createCell(rowData[i], "td");
+					if(i == 0 || i == 1){
+						cell.addClass('nowrap');
+					}
+					row.append(cell);
+				}
+				gridBody.append(row);
+			}
+			
+		}
 	};
 })();

@@ -8,6 +8,9 @@ body {
 .nowrap{
 	white-space:nowrap;
 }
-.settings, .stock-field{
+.settings, .stock-field, .stock-period{
 	margin-top: 5px;
+}
+.active{
+	background-color:red;
 }
